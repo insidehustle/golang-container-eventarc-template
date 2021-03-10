@@ -1,0 +1,88 @@
+name: Go
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        # Artifact name
+        name: binary
+        # A file, directory or wildcard pattern that describes what to upload
+        path: /
+#     - name: Set up gcloud Cloud SDK environment
+#       # You may pin to the exact commit or the version.
+#       # uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+#       uses: google-github-actions/setup-gcloud@v0.2.0
+#       with:
+#         # Version of the gcloud SDK to install. If unspecified or set to "latest",
+#     the latest available gcloud SDK version for the target platform will be
+#     installed. Example: "290.0.1".
+#         version: # optional, default is latest
+#         # Service account email address to use for authentication. This is required
+#     for legacy .p12 keys but can be omitted for .json keys. This is usually of
+#     the format <name>@<project-id>.iam.gserviceaccount.com.
+#         service_account_email: # optional
+#         # Service account key to use for authentication. This should be the JSON
+#     formatted private key which can be exported from the Cloud Console. The
+#     value can be raw or base64-encoded.
+#         service_account_key: # optional
+#         # ID of the Google Cloud project. If provided, this will configure gcloud to
+#     use this project ID by default for commands. Individual commands can still
+#     override the project using the --project flag which takes precedence.
+#         project_id: # optional
+#         # Export the provided credentials as Google Default Application Credentials.
+#     This will make the credentials available to later steps via the
+#     GOOGLE_APPLICATION_CREDENTIALS environment variable. Future steps that
+#     consume Default Application Credentials will automatically detect and use
+#     these credentials.
+    export_default_credentials: # optional    
+        # The desired behavior if no files are found using the provided path.
+#     - name: Deploy to Cloud Run
+#     # You may pin to the exact commit or the version.
+#     # uses: google-github-actions/deploy-cloudrun@ff8b38330cf81843db9cff366e335c34aa467c44
+#       uses: google-github-actions/deploy-cloudrun@v0.3.0
+#       with:
+#         # Name of the container image to deploy (e.g. gcr.io/cloudrun/hello:latest).
+#   #   Required if not using a service YAML.
+#         image: eu.gcr.io/
+#         # ID of the service or fully qualified identifier for the service.
+#   #   Required if not using a service YAML.
+#         service: # optional
+#         # Region in which the resource can be found.
+#         region: # optional, default is us-central1
+#         # List of key-value pairs to set as environment variables in the format:
+#   #   KEY1=VALUE1,KEY2=VALUE2. All existing environment variables will be
+#   #   removed first.
+#         env_vars: # optional
+#         # YAML serivce description for the Cloud Run service.
+#         metadata: # optional
+#         # The GCP project ID. Overrides project ID set by credentials.
+#         project_id: # optional
+#         # Service account key to use for authentication. This should be the JSON
+#   #   formatted private key which can be exported from the Cloud Console. The
+#   #   value can be raw or base64-encoded. Required if not using a the
+#   #   setup-gcloud action with exported credentials.
+#         credentials: # optional
+      
+      
